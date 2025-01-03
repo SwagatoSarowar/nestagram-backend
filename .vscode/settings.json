@@ -1,0 +1,7 @@
+{
+  "files.exclude": {
+    // ? Hide test files while true (for cleaner sidebar navigation)
+    // ! Set to false to show test files
+    "**/*.spec.ts": true
+  }
+}
