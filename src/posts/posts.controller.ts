@@ -7,22 +7,25 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
 } from "@nestjs/common";
-import { CreatePostDto } from "./dto/create-post.dto";
+import { PaginationQueryDto } from "src/common/pagination/dtos/pagination-query.dto";
+import { CreatePostDto } from "./dtos/create-post.dto";
+import { UpdatePostDto } from "./dtos/update-post.dto";
 import { PostsService } from "./posts.service";
-import { UpdatePostDto } from "./dto/update-post.dto";
 
 @Controller("posts")
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
+
   @Get()
-  findAll() {
-    return this.postsService.findAll();
+  findAll(@Query() paginationQuery: PaginationQueryDto) {
+    return this.postsService.findAll(paginationQuery);
   }
 
   @Get(":id")
-  findOne(@Param("id", ParseIntPipe) id: number) {
-    return this.postsService.findOne(id);
+  async findOne(@Param("id", ParseIntPipe) id: number) {
+    return { data: await this.postsService.findOne(id) };
   }
 
   @Post()
